@@ -1,0 +1,9 @@
+# IDE & Editors
+.idea
+.vscode
+
+# Build Folders
+/target
+
+# Development Instance
+.smarttomcat
