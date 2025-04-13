@@ -1,0 +1,8 @@
+# IDE & Editors
+.idea
+
+# Build Folders
+/target
+
+# Development Instance
+.smarttomcat
