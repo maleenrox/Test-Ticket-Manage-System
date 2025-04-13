@@ -104,17 +104,15 @@
             </div>
         </c:if>
         
-        <form action="RegisterServlet" method="post">
+        <form action="../RegisterServlet" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" 
-                       value="${username}" required>
+                <input type="text" id="username" name="username" required>
             </div>
             
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" 
-                       value="${email}" required>
+                <input type="email" id="email" name="email" required>
             </div>
             
             <div class="form-group">
@@ -123,8 +121,8 @@
             </div>
             
             <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <label for="phoneNo">Phone Number</label>
+                <input type="number" id="phoneNo" name="phoneNo" required>
             </div>
             
             <button type="submit" class="btn-register">Register</button>

@@ -10,7 +10,12 @@
 <body>
 
 <div class="container">
-    <a href="auth/login.jsp" class="" >Login</a>
+    <div>
+        <a href="auth/login.jsp" class="">Login</a>
+    </div>
+    <div>
+        <a href="auth/register.jsp" class="">Register</a>
+    </div>
 </div>
 </body>
 </html>

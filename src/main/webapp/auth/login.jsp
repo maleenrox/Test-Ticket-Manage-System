@@ -1,121 +1,12 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%--<!DOCTYPE html>--%>
-<%--<html>--%>
-<%--<head>--%>
-<%--    <meta charset="UTF-8">--%>
-<%--    <title>Login Page</title>--%>
-<%--    <style>--%>
-<%--        body {--%>
-<%--            font-family: Arial, sans-serif;--%>
-<%--            background-color: #f5f5f5;--%>
-<%--            margin: 0;--%>
-<%--            padding: 0;--%>
-<%--            display: flex;--%>
-<%--            justify-content: center;--%>
-<%--            align-items: center;--%>
-<%--            height: 100vh;--%>
-<%--        }--%>
-<%--        .login-container {--%>
-<%--            background: white;--%>
-<%--            padding: 30px;--%>
-<%--            border-radius: 8px;--%>
-<%--            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);--%>
-<%--            width: 350px;--%>
-<%--        }--%>
-<%--        .login-header {--%>
-<%--            text-align: center;--%>
-<%--            margin-bottom: 25px;--%>
-<%--        }--%>
-<%--        .login-header h2 {--%>
-<%--            color: #333;--%>
-<%--            margin: 0;--%>
-<%--        }--%>
-<%--        .form-group {--%>
-<%--            margin-bottom: 20px;--%>
-<%--        }--%>
-<%--        .form-group label {--%>
-<%--            display: block;--%>
-<%--            margin-bottom: 5px;--%>
-<%--            color: #555;--%>
-<%--            font-weight: bold;--%>
-<%--        }--%>
-<%--        .form-group input {--%>
-<%--            width: 100%;--%>
-<%--            padding: 10px;--%>
-<%--            border: 1px solid #ddd;--%>
-<%--            border-radius: 4px;--%>
-<%--            box-sizing: border-box;--%>
-<%--        }--%>
-<%--        .btn-login {--%>
-<%--            width: 100%;--%>
-<%--            padding: 12px;--%>
-<%--            background-color: #4a6fa5;--%>
-<%--            color: white;--%>
-<%--            border: none;--%>
-<%--            border-radius: 4px;--%>
-<%--            cursor: pointer;--%>
-<%--            font-size: 16px;--%>
-<%--            transition: background-color 0.3s;--%>
-<%--        }--%>
-<%--        .btn-login:hover {--%>
-<%--            background-color: #3a5a80;--%>
-<%--        }--%>
-<%--        .error-message {--%>
-<%--            color: #d9534f;--%>
-<%--            text-align: center;--%>
-<%--            margin-bottom: 15px;--%>
-<%--        }--%>
-<%--        .footer {--%>
-<%--            text-align: center;--%>
-<%--            margin-top: 20px;--%>
-<%--            color: #777;--%>
-<%--        }--%>
-<%--    </style>--%>
-<%--</head>--%>
-<%--<body>--%>
-<%--    <div class="login-container">--%>
-<%--        <div class="login-header">--%>
-<%--            <h2>Admin Login</h2>--%>
-<%--        </div>--%>
-<%--        --%>
-<%--        &lt;%&ndash; Display error message if authentication fails &ndash;%&gt;--%>
-<%--        <c:if test="${not empty errorMessage}">--%>
-<%--            <div class="error-message">${errorMessage}</div>--%>
-<%--        </c:if>--%>
-<%--        --%>
-<%--        <form action="LoginServlet" method="post">--%>
-<%--            <div class="form-group">--%>
-<%--                <label for="username">Username</label>--%>
-<%--                <input type="text" id="username" name="username" required>--%>
-<%--            </div>--%>
-<%--            --%>
-<%--            <div class="form-group">--%>
-<%--                <label for="password">Password</label>--%>
-<%--                <input type="password" id="password" name="password" required>--%>
-<%--            </div>--%>
-<%--            --%>
-<%--            <button type="submit" class="btn-login">Login</button>--%>
-<%--        </form>--%>
-<%--        --%>
-<%--		<div class="footer">--%>
-<%--			<p>Don't have an account? <a href="register.jsp">Register here</a></p>--%>
-<%--			<p>Ticket Management System</p>--%>
-<%--		</div>--%>
-<%--		--%>
-<%--        <div class="footer">--%>
-<%--            <p>Ticket Management System</p>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</body>--%>
-<%--</html>--%>
-
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
 
 <%
     // Retrieve error message from session
     HttpSession sessionObj = request.getSession();
     String error = (String) sessionObj.getAttribute("error");
+    String success = (String) sessionObj.getAttribute("success");
+    sessionObj.removeAttribute("success"); // clear success after displaying
     sessionObj.removeAttribute("error"); // Clear error after displaying
 %>
 
@@ -165,6 +56,15 @@
             background: #ffdddd;
             color: #d8000c;
             border-left: 5px solid #d8000c;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        .success-box {
+            background: #b6f3aa;
+            color: #179117;
+            border-left: 5px solid #07ff31;
             padding: 10px;
             margin-bottom: 15px;
             font-size: 14px;
@@ -234,11 +134,16 @@
     </div>
 
     <!-- Display error message if exists -->
-        <% if (error != null) { %>
-    <div class="error-box"><%= error %></div>
-        <% } %>
+    <% if (error != null) { %>
+        <div class="error-box"><%= error %></div>
+    <% } %>
 
-    <form action="LoginServlet" method="post">
+    <!-- Display success message if exists -->
+    <% if (success != null) { %>
+        <div class="success-box"><%= success %></div>
+    <% } %>
+
+    <form action="../LoginServlet" method="post">
         <div class="input-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required placeholder="Enter your username">

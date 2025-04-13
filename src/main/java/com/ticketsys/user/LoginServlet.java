@@ -1,5 +1,7 @@
 package com.ticketsys.user;
 
+import com.ticketsys.utils.FilePathReader;
+
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -17,9 +19,11 @@ public class LoginServlet extends HttpServlet {
             boolean isLogged = false;
 
             // access user-data resource file
-            InputStream isUserData = getClass().getClassLoader().getResourceAsStream("data/db_user_data.txt");
-            if (isUserData != null) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(isUserData))) {
+            String userDataPath = FilePathReader.getPathFromResources(1);
+
+            if (userDataPath != null) {
+                File file = new File(userDataPath);
+                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
                         String[] credentials = line.split(":");
@@ -32,9 +36,10 @@ public class LoginServlet extends HttpServlet {
                     // if login successful; create session and redirect to user dashboard
                     HttpSession session = request.getSession();
                     if (isLogged) {
+                        System.out.println("loggin successfull");
                         session.setAttribute("username", username);
                         session.removeAttribute("error"); // Clear previous errors
-                        response.sendRedirect("events.jsp");
+                        response.sendRedirect("event/events.jsp");
                     }
                     else {
                         session.setAttribute("error", "Invalid credentials. Please try again.");
