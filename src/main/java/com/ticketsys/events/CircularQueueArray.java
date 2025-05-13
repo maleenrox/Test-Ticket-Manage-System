@@ -52,19 +52,11 @@ public class CircularQueueArray {
     }
 
     public boolean isEmpty() {
-        if (nItems == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return nItems == 0;
     }
 
     public boolean isFull() {
-        if (nItems == maxSize) {
-            return true;
-        } else {
-            return false;
-        }
+        return nItems == maxSize;
     }
 
     public int getCount(){

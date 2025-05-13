@@ -12,38 +12,33 @@ import java.io.*;
 
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
+    private boolean isRegistered = false;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             // get username & password from request body
             String username = request.getParameter("username");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-            String phoneNo = request.getParameter("phoneNo");
+            String phoneNo = request.getParameter("phoneNumber");
 
-            String Credential = username + ":" + password + ":" + email + ":" + phoneNo;
-            String userDataPath = FilePathReader.getPathFromResources(1);
+            User user = new User();
+            this.isRegistered = user.addUser(username, password, email, phoneNo);
 
-            if (userDataPath != null) {
-                HttpSession session = request.getSession();
+            HttpSession session = request.getSession();
 
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(userDataPath, true))) {
-                    writer.newLine(); // add new line
-                    writer.write(Credential); // write register data
-
-                    session.setAttribute("username", username);
-                    session.setAttribute("success", "Registration Successful.");
-                    session.removeAttribute("error"); // clear previous errors
-                    // response.sendRedirect("eventList.jsp");
-                    response.sendRedirect("auth/login.jsp");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    session.setAttribute("error", "Register Failed");
-                    session.removeAttribute("success");
-                    response.sendRedirect("auth/register.jsp");
-                }
-            } else {
-                System.err.println("User data file path could not be loaded.");
+            if (isRegistered) {
+                session.setAttribute("username", username);
+                session.setAttribute("success", "Registration Successful.");
+                session.removeAttribute("error"); // clear previous errors
+                response.sendRedirect("user/userLogin.jsp");
             }
+            else {
+                session.setAttribute("error", "Register Failed");
+                session.removeAttribute("success");
+                response.sendRedirect("user/userRegister.jsp");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -11,7 +11,7 @@
 
 <div class="container">
     <div>
-        <a href="auth/login.jsp" class="">Login</a>
+        <a href="user/userLogin.jsp" class="">Login</a>
     </div>
     <div>
         <a href="auth/register.jsp" class="">Register</a>
