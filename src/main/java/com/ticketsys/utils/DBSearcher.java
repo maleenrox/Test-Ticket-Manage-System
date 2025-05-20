@@ -19,7 +19,7 @@ public class DBSearcher {
                 System.out.println("\t\t\tSystem (DBSearcher): Checking credentials...");
                 String[] credentials = line.split(":");
 
-                if (credentials.length == elementCount && CaseFixer.fixCase(credentials[elementPlace]).equals(element)) {
+                if (credentials.length == elementCount && CaseFixer.fixCase(credentials[elementPlace]).equals(CaseFixer.fixCase(element))) {
                     isFind = true;
                     searchString = line;
                     System.out.println("\t\t\tSystem (DBSearcher): element matched...");
@@ -53,7 +53,7 @@ public class DBSearcher {
                 System.out.println("\t\t\tSystem (DBSearcher): Checking credentials...");
                 String[] credentials = line.split(":");
 
-                if (credentials.length == elementCount && CaseFixer.fixCase(credentials[elementPlace1]).equals(element1) && credentials[elementPlace2].equals(element2)) {
+                if (credentials.length == elementCount && CaseFixer.fixCase(credentials[elementPlace1]).equals(CaseFixer.fixCase(element1)) && credentials[elementPlace2].equals(element2)) {
                     isFind = true;
                     System.out.println("\t\t\tSystem (DBSearcher): element matched...");
                 }

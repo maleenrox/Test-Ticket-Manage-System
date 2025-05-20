@@ -1,11 +1,12 @@
 package com.ticketsys.userManager;
 
 import com.ticketsys.generalAdmin.Manager;
-import com.ticketsys.user.User;
 import com.ticketsys.utils.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class UserManager extends Manager {
     private String userManagerName;
@@ -18,11 +19,11 @@ public class UserManager extends Manager {
         System.out.println("\nSystem: Login Process Started:");
         this.userManagerName = CaseFixer.fixCase(userManagerName);
         try {
-            String userManagerDataPath = FilePathReader.getPathFromResources(2);
+            String userManagerDataPath = FilePathReader.getPathFromResources(8);
             if (userManagerDataPath != null) {
                 File file = new File(userManagerDataPath);
                 System.out.println("\tSystem: User Manager data file path loaded...");
-                isLogged = DBSearcher.dbReadAndSearch(file,userManagerName,password,4,0,1);
+                isLogged = DBSearcher.dbReadAndSearch(file,this.userManagerName,password,5,0,4);
             }
             else {
                 System.err.println("\tSystem: User Manager data file path could not be loaded...");
@@ -46,14 +47,21 @@ public class UserManager extends Manager {
     }
 
 
-    public boolean addUser(String username, String password, String email, String phoneNo) throws IOException {
-
+    public boolean addUser(String userName, String password, String email, String phoneNo) throws IOException {
         System.out.println("\nSystem: Register Process Started...");
-        String Credential = username + ":" + password + ":" + email + ":" + phoneNo;
+        // Get the current date and time
+        LocalDateTime now = LocalDateTime.now();
 
+        // Define the desired format without colons for the time
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH.mm.ss");
+
+        // Format the current date and time as a string
+        String formattedDateTime = now.format(formatter);
+
+        String Credential = userName + ":" + password + ":" + email + ":" + phoneNo + ":" + formattedDateTime;
         try {
             System.out.println( "System: Registering User...");
-            String userDataPath = FilePathReader.getPathFromResources(1);
+            String userDataPath = FilePathReader.getPathFromResources(3);
 
             if (userDataPath != null) {
                 System.out.println("\tSystem: User data file path loaded...");
@@ -82,11 +90,12 @@ public class UserManager extends Manager {
 
     }
 
+
     public boolean removeUser(String username) throws IOException {
         System.out.println("\nSystem: Remove Process Started...");
 
         try {
-            String userDataPath = FilePathReader.getPathFromResources(1);
+            String userDataPath = FilePathReader.getPathFromResources(3);
             if (userDataPath != null) {
                 System.out.println("\tSystem: User data file path loaded...");
 

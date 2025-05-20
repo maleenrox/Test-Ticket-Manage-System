@@ -28,7 +28,7 @@ public class DBElementUpdater {
 
                 if (updateElementPlace == 0){
                     System.out.println( "\t\t\tSystem (DBElementUpdater): Checking key element...");
-                    if (parts[keyElementPlace].equals(keyElement)) {
+                    if ((CaseFixer.fixCase(parts[keyElementPlace])).equals(CaseFixer.fixCase(keyElement))) {
                         System.out.println( "\t\t\tSystem (DBElementUpdater): Updating element...");
                         sb.append(updateElement);
                         isUpdated = true;
@@ -44,7 +44,7 @@ public class DBElementUpdater {
                 }
                 else {
                     System.out.println( "\t\t\tSystem (DBElementUpdater): Checking key element...");
-                    if (parts[keyElementPlace].equals(keyElement)) {
+                    if ((CaseFixer.fixCase(parts[keyElementPlace])).equals(CaseFixer.fixCase(keyElement))) {
                         sb.append(parts[0]);
                         for (int i = 1; i < elementCount; i++) {
                             if (i == updateElementPlace) {
@@ -69,7 +69,7 @@ public class DBElementUpdater {
             // Write back to the file
             System.out.println( "\t\t\tSystem (DBElementUpdater): Writing file...");
             writer = new BufferedWriter(new FileWriter(dbPath));
-            writer.write(sb.toString());
+            writer.write(sb.toString().trim());
 
             System.out.println("\t\t\tSystem (DBElementUpdater): Element Write successfully!");
 
@@ -147,7 +147,7 @@ public class DBElementUpdater {
                 }
                 else {
                     System.out.println( "\t\t\tSystem (DBElementUpdater): Checking key element...");
-                    if (parts[keyElementPlace].equals(keyElement)) {
+                    if ((CaseFixer.fixCase(parts[keyElementPlace])).equals(CaseFixer.fixCase(keyElement))) {
                         sb.append(parts[0]);
                         for (int i = 1; i < elementCount; i++) {
                             if (i == updateElementPlace) {
@@ -172,7 +172,7 @@ public class DBElementUpdater {
             // Write back to the file
             System.out.println( "\t\t\tSystem (DBElementUpdater): Writing file...");
             writer = new BufferedWriter(new FileWriter(dbPath));
-            writer.write(sb.toString());
+            writer.write(sb.toString().trim());
 
             System.out.println("\t\t\tSystem (DBElementUpdater): Element Write successfully!");
 

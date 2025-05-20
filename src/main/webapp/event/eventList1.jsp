@@ -3,6 +3,8 @@
 <%@ page import="com.ticketsys.utils.FilePathReader" %>
 <%@ page import="com.ticketsys.utils.DBElementGetter" %>
 <%@ page import="com.ticketsys.utils.CaseFixer" %>
+<%@ page import="com.ticketsys.utils.MergeSort" %>
+<%@ page import="com.ticketsys.events.Event" %>
 
 <%
         // Get session details
@@ -13,6 +15,8 @@
             response.sendRedirect("user/userLogin.jsp");
             return;
         }
+        String eventSortPath = FilePathReader.getPathFromResources(38);
+        File file3 = new File(eventSortPath);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -165,23 +169,23 @@
         <h1>Event List (Sorted by Date)</h1>
         <div class="user-header">
             <span>Welcome, <strong><%=userName%></strong></span>
-            <button>Logout</button>
+            <button onclick="window.location.href='../user/userLogOut.jsp'">Logout</button>
         </div>
     </div>
 
     <!-- Sort By Buttons -->
     <div class="sortby-container">
-        <button onclick="window.location.href='eventList1.html'">Sort by Date</button>
-        <button onclick="window.location.href='eventList2.html'">Sort by Popularity</button>
+        <button onclick="window.location.href='eventList1.jsp'">Sort by Date</button>
+        <button onclick="window.location.href='eventList2.jsp'">Sort by Popularity</button>
     </div>
 
     <%
-        BufferedReader reader = null;
-        String eventDBPath = FilePathReader.getPathFromResources(9);
+        String eventDBPath = FilePathReader.getPathFromResources(16);
         File file = new File(eventDBPath);
-        String eventAnalyzeDBPath = FilePathReader.getPathFromResources(8);
+        String eventAnalyzeDBPath = FilePathReader.getPathFromResources(24);
         File file1 = new File(eventAnalyzeDBPath);
-        reader = new BufferedReader(new FileReader(file));
+        Event.sortEvents(eventSortPath);
+        BufferedReader reader = new BufferedReader(new FileReader(file3));
         String line;
     %>
 
@@ -190,35 +194,25 @@
             String[] parts = line.split(":");
             int ticketReminingCount = DBElementGetter.getElement(file1, CaseFixer.fixCase(parts[0]),5,0,2);
             int ticketSoldCount = DBElementGetter.getElement(file1, CaseFixer.fixCase(parts[0]),5,0,3);
+            String ticketDescription = DBElementGetter.getElement(file, CaseFixer.fixCase(parts[0]),5,0,1,2);
+            String ticketDate = DBElementGetter.getElement(file, CaseFixer.fixCase(parts[0]),5,0,4,2);
 
     %>
     <div class="event-box">
         <h2><%=parts[0]%></h2>
         <ul>
-            <li><strong>Description:</strong><%=parts[1]%></li>
-            <li><strong>Event Date:</strong><%=parts[4]%></li>
-            <li><strong>Tickets Remaining:</strong> <%= ticketReminingCount%> </li>
-            <li><strong>Tickets Sold:</strong> <%= ticketSoldCount%> </li>
+            <li><strong>Description: </strong><%=ticketDescription%></li>
+            <li><strong>Event Date: </strong><%=ticketDate%></li>
+            <li><strong>Tickets Remaining: </strong> <%=ticketReminingCount%> </li>
+            <li><strong>Tickets Sold: </strong> <%=ticketSoldCount%> </li>
         </ul>
         <ul>
-            <li><button>Buy Ticket</button></li>
+            <li><a href="event.jsp?eventName=<%=parts[0]%>">
+                <button>Buy Ticket</button>
+            </a>
         </ul>
     </div>
     <%}%>
-
-    <!-- Event 2 -->
-    <div class="event-box">
-        <h2>CybrArt Exhibition</h2>
-        <ul>
-            <li><strong>Description:</strong>Display of contemporary cyber art from various artists.</li>
-            <li><strong>Event Date:</strong>2025-07-15</li>
-            <li><strong>Tickets Remaining:</strong> 195</li>
-            <li><strong>Tickets Sold:</strong> 5</li>
-        </ul>
-        <ul>
-            <li><button>Buy Ticket</button></li>
-        </ul>
-    </div>
 
 </div>
 

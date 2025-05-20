@@ -1,5 +1,9 @@
 package com.ticketsys.user;
 
+import com.ticketsys.utils.CaseFixer;
+import com.ticketsys.utils.DBSearcher;
+import com.ticketsys.utils.FilePathReader;
+
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -18,11 +22,22 @@ public class ForgotPasswordServlet extends HttpServlet {
             this.email = request.getParameter("email");
             this.newPassword = request.getParameter("newPassword");
 
+            HttpSession session = request.getSession();
+            String userDataPath = FilePathReader.getPathFromResources(3);
+            File file = new File(userDataPath);
+            if (!(DBSearcher.dbReadAndSearch(file, CaseFixer.fixCase(username),5,0))){
+                request.setAttribute("error", "Credential Not Match. Please try again");
+                session.removeAttribute("success");
+                response.sendRedirect("user/userPassWordChange.jsp");
+                System.out.println( "Username already exists. Please try again with a different username.");
+                System.out.println("Faild to register user ");
+                return;
+            }
             User user = new User();
 
             isPassswordChange = user.changePassword(username, email, newPassword);
 
-            HttpSession session = request.getSession();
+
             if (isPassswordChange) {
                 System.out.println("Password changed successfully!");
                 response.sendRedirect("user/userLogin.jsp");

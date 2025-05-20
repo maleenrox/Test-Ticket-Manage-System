@@ -15,11 +15,11 @@ public class GeneralAdmin {
         System.out.println("\nSystem: Login Process Started:");
         this.generalAdminName = CaseFixer.fixCase(generalAdminName);
         try {
-            String eventManagerNameDataPath = FilePathReader.getPathFromResources(4);
+            String eventManagerNameDataPath = FilePathReader.getPathFromResources(34);
             if (eventManagerNameDataPath != null) {
                 File file = new File(eventManagerNameDataPath);
                 System.out.println("\tSystem: General Admin data file path loaded...");
-                isLogged = DBSearcher.dbReadAndSearch(file,generalAdminName,password,4,0,1);
+                isLogged = DBSearcher.dbReadAndSearch(file,generalAdminName,password,5,0,4);
             }
             else {
                 System.err.println("\tSystem: General Admin data file path could not be loaded...");

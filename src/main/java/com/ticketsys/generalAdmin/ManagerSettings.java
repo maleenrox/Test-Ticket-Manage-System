@@ -13,14 +13,14 @@ public class ManagerSettings extends Manager{
     private boolean isRegistered = false;
     private boolean isRemoved = false;
 
-    public boolean addUserManager(String userManagerID, String userManagerName, String email, String phoneNo) throws IOException {
+    public boolean addUserManager(String userManagerID, String userManagerName, String email, String phoneNo, String password) throws IOException {
 
         System.out.println("\nSystem: Register Process Started...");
-        String Credential = userManagerID + ":" + userManagerName + ":" + email + ":" + phoneNo;
+        String Credential = userManagerID + ":" + userManagerName + ":" + email + ":" + phoneNo + ":" + password;
 
         try {
             System.out.println( "System: Registering User Manager...");
-            String userManagerDataPath = FilePathReader.getPathFromResources(2);
+            String userManagerDataPath = FilePathReader.getPathFromResources(8);
 
             if (userManagerDataPath != null) {
                 System.out.println("\tSystem: User Manager data file path loaded...");
@@ -49,14 +49,14 @@ public class ManagerSettings extends Manager{
 
     }
 
-    public boolean addEventManager(String eventManagerID, String eventManagerName, String email, String phoneNo) throws IOException {
+    public boolean addEventManager(String eventManagerID, String eventManagerName, String email, String phoneNo, String password) throws IOException {
 
         System.out.println("\nSystem: Register Process Started...");
         String Credential = eventManagerID + ":" + eventManagerName + ":" + email + ":" + phoneNo;
 
         try {
             System.out.println( "System: Registering Event Manager...");
-            String eventManagerDataPath = FilePathReader.getPathFromResources(2);
+            String eventManagerDataPath = FilePathReader.getPathFromResources(21);
 
             if (eventManagerDataPath != null) {
                 System.out.println("\tSystem: Event Manager data file path loaded...");
@@ -89,11 +89,13 @@ public class ManagerSettings extends Manager{
         System.out.println("\nSystem: Remove Process Started...");
 
         try {
-            String userManagerDataPath = FilePathReader.getPathFromResources(1);
+            String userManagerDataPath = FilePathReader.getPathFromResources(8);
             if (userManagerDataPath != null) {
                 System.out.println("\tSystem: User data file path loaded...");
-
-                this.isRemoved = DBElementRemover.removeWholeElement(new File(userManagerDataPath), CaseFixer.fixCase(usermanagername), 0);
+                File file = new File(userManagerDataPath);
+                String userManagerID = CaseFixer.fixCase(usermanagername);
+                System.out.println(userManagerID);
+                this.isRemoved = DBElementRemover.removeWholeElement(file, userManagerID, 0);
             }
             else {
                 System.out.println("\tSystem: User data file path could not be loaded...");
@@ -120,7 +122,7 @@ public class ManagerSettings extends Manager{
         System.out.println("\nSystem: Remove Process Started...");
 
         try {
-            String eventManagerDataPath = FilePathReader.getPathFromResources(1);
+            String eventManagerDataPath = FilePathReader.getPathFromResources(21);
             if (eventManagerDataPath != null) {
                 System.out.println("\tSystem: User data file path loaded...");
 

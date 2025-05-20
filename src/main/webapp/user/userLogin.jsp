@@ -202,12 +202,6 @@
         </div>
     </div>
     <% } %>
-
-    <% if (success != null) { %>
-    <div class="success-box" id="alert-box">
-        <%= success %>
-    </div>
-    <% } %>
 </div>
 
 <div class="form-container">

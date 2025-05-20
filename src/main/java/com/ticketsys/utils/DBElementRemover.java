@@ -23,7 +23,7 @@ public class DBElementRemover {
 
                 System.out.println("\t\t\tSystem (DBElementUpdater): Checking credentials...");
 
-                if (parts[keyElementPlace].equals(keyElement)) {
+                if ((CaseFixer.fixCase(parts[keyElementPlace])).equals(CaseFixer.fixCase(keyElement))) {
                     System.out.println("\t\t\tSystem (DBElementUpdater): Removing element...");
                     isRemoved = true;
                 }
@@ -33,10 +33,18 @@ public class DBElementRemover {
                 }
             }
 
+            StringBuilder cleaned = new StringBuilder();
+            String[] lines = sb.toString().split("\\R");
+            for (String l : lines) {
+                if (!l.trim().isEmpty()) {
+                    cleaned.append(l).append(System.lineSeparator());
+                }
+            }
+
             // Write back to the file
-            System.out.println( "\t\t\tSystem (DBElementUpdater): Writing file...");
+            System.out.println("\t\t\tSystem (DBElementUpdater): Writing file...");
             writer = new BufferedWriter(new FileWriter(dbPath));
-            writer.write(sb.toString());
+            writer.write(cleaned.toString().trim());
 
             System.out.println("\t\t\tSystem (DBElementUpdater): Element Write successfully!");
 

@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
             if (isLogged) {
                 System.out.println("* Import System: Loggin successfull...");
                 session.setAttribute("username", username);
-                session.setAttribute("success", "Login Successful.");
+                session.setAttribute("success", "Login Successful...");
                 session.removeAttribute("error"); // Clear previous errors
                 response.sendRedirect("event/eventList1.jsp");
             }

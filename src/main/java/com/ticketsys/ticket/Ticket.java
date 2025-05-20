@@ -11,7 +11,8 @@ public class Ticket {
     private String username;
     private String eventName;
     private int ticketSoldCount;
-    private int ticketSoldValue;
+    public int ticketSoldValue;
+    private int ticketValue;
     private boolean isFind = false;
     private boolean isUpdated = false;
 
@@ -23,11 +24,14 @@ public class Ticket {
         System.out.println("\nSystem: Ticket class initialized...");
     }
 
-    public Ticket(String username, String eventName, int ticketSoldCount, int ticketSoldValue) {
+    public Ticket(String username, String eventName, int ticketSoldCount) throws IOException {
         this.username = CaseFixer.fixCase(username);
         this.eventName = CaseFixer.fixCase(eventName);
         this.ticketSoldCount = ticketSoldCount;
-        this.ticketSoldValue = ticketSoldValue;
+        String eventDataPath = FilePathReader.getPathFromResources(16);
+        File file = new File(eventDataPath);
+        this.ticketValue = DBElementGetter.getElement(file,eventName,5,0,3);
+        this.ticketSoldValue = ValueUpdater.valueMultiplier(ticketValue,ticketSoldCount);
         System.out.println("\nSystem: Ticket class initialized...");
     }
 
@@ -36,7 +40,7 @@ public class Ticket {
         try {
             System.out.println("\nSystem: Start Update User Analyze DB...");
 
-            String userAnalyzeDataPath = FilePathReader.getPathFromResources(7);
+            String userAnalyzeDataPath = FilePathReader.getPathFromResources(11);
             System.out.println("System: User data file path loaded...");
 
             if (userAnalyzeDataPath != null) {
@@ -80,11 +84,11 @@ public class Ticket {
         }
 
         if (isUpdated) {
-            System.out.println("System: Password changed successfully...");
+            System.out.println("updateUserAnalyzeDB update sucsessfully...");
             return true;
         }
         else {
-            System.out.println("System: Password change failed...");
+            System.out.println("updateUserAnalyzeDB update failed...");
             return false;
         }
     }
@@ -94,13 +98,13 @@ public class Ticket {
         try {
             System.out.println("\nSystem: Start Update User Analyze DB...");
 
-            String eventAnalyzeDataPath = FilePathReader.getPathFromResources(8);
+            String eventAnalyzeDataPath = FilePathReader.getPathFromResources(24);
             System.out.println("System: User data file path loaded...");
 
             if (eventAnalyzeDataPath != null) {
                 File file = new File(eventAnalyzeDataPath);
                 System.out.println("\tSystem: User data file path loaded...");
-                this.isFind = DBSearcher.dbReadAndSearch(file ,this.eventName ,6,0);
+                this.isFind = DBSearcher.dbReadAndSearch(file ,this.eventName ,5,0);
 
                 if (isFind) {
                     System.out.println("\tSystem: User found...");
@@ -149,11 +153,11 @@ public class Ticket {
         }
 
         if (isUpdated) {
-            System.out.println("System: Password changed successfully...");
+            System.out.println("updateEventAnalyzeDB sucsessfully...");
             return true;
         }
         else {
-            System.out.println("System: Password change failed...");
+            System.out.println("updateEventAnalyzeDB failed...");
             return false;
         }
     }
@@ -171,16 +175,32 @@ public class Ticket {
         // Format the current date and time as a string
         String formattedDateTime = now.format(formatter);
 
-        String Credential = eventName + ":" + ticketSoldCount + ":" + ticketSoldCount + ":" + ticketSoldValue + ":" + formattedDateTime;
+        ticketSoldValue = ValueUpdater.valueMultiplier(ticketValue,ticketSoldCount);
+        String Credential = username + ":" + eventName + ":" + ticketSoldCount + ":" + ticketSoldValue + ":" + formattedDateTime;
 
         try {
             System.out.println( "System: Registering User...");
-            String ticketDataPath = FilePathReader.getPathFromResources(6);
+            String ticketDataPath = FilePathReader.getPathFromResources(29);
 
             if (ticketDataPath != null) {
                 System.out.println("\tSystem: User data file path loaded...");
 
-                this.isUpdated = DBElementAdder.addElementToEnd(new File(ticketDataPath), Credential);
+                File file = new File(ticketDataPath);
+
+                this.isUpdated = DBElementAdder.addElement_circularQueue(file, Credential);
+
+                if (isUpdated) {
+                    String eventSortDataPath = FilePathReader.getPathFromResources(42);
+                    File file1 = new File(eventSortDataPath);
+                    int updateValue = ValueUpdater.valueAdder(DBElementGetter.getElement(file1,this.eventName,2,0,1),ticketSoldCount);
+                    isUpdated = DBElementUpdater.updateElement(file1, this.eventName, updateValue, 2, 0, 1);
+                    System.out.println("\tSystem: Ticket value update opened successfully...");
+                }
+                else {
+                    System.err.println("\tSystem: Ticket count update failed...");
+                    this.isUpdated = false;
+                }
+
             }
             else {
                 System.out.println("\tSystem: User data file path could not be loaded...");
@@ -188,11 +208,11 @@ public class Ticket {
             }
 
             if (this.isUpdated) {
-                System.out.println("System: Registration Successful...");
+                System.out.println("addTicketToTicketDB succsessful... ");
                 return true;
             }
             else {
-                System.out.println("System: Registration Failed...");
+                System.out.println("addTicketToTicketDB failed... ");
                 return false;
             }
         }
@@ -203,16 +223,16 @@ public class Ticket {
         }
     }
 
-    public boolean isAvailable(String eventName, int ticketSoldCount, int ticketSoldValue) throws IOException {
+    public boolean isAvailable(int ticketSoldCount) throws IOException {
         System.out.println("\nSystem: Check Process Started...");
         try {
             boolean isAvailable = false;
-            String eventAnalyzeDataPath = FilePathReader.getPathFromResources(8);
+            String eventAnalyzeDataPath = FilePathReader.getPathFromResources(24);
             System.out.println("System: User data file path loaded...");
             if (eventAnalyzeDataPath != null) {
                 File file = new File(eventAnalyzeDataPath);
 
-                if(!((DBElementGetter.getElement(file,this.eventName,5,0,2) > 0) || (DBElementGetter.getElement(file,this.eventName,5,0,2) >= ticketSoldCount))){
+                if(((DBElementGetter.getElement(file,this.eventName,5,0,2) > 0) || (DBElementGetter.getElement(file,this.eventName,5,0,2) >= ticketSoldCount))){
                     isAvailable = true;
                 }
                 else if((DBElementGetter.getElement(file,this.eventName,5,0,2) <= 0) || (DBElementGetter.getElement(file,this.eventName,5,0,2) < ticketSoldCount)){

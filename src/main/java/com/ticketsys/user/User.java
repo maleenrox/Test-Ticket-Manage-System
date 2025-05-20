@@ -3,6 +3,8 @@ package com.ticketsys.user;
 import com.ticketsys.utils.*;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class User {
     private String username;
@@ -21,11 +23,11 @@ public class User {
         System.out.println("\nSystem: Login Process Started:");
         this.username = CaseFixer.fixCase(username);
         try {
-            String userDataPath = FilePathReader.getPathFromResources(1);
+            String userDataPath = FilePathReader.getPathFromResources(3);
             if (userDataPath != null) {
                 File file = new File(userDataPath);
                 System.out.println("\tSystem: User data file path loaded...");
-                isLogged = DBSearcher.dbReadAndSearch(file,username,password,4,0,1);
+                isLogged = DBSearcher.dbReadAndSearch(file,username,password,5,0,1);
             }
             else {
                 System.err.println("\tSystem: User data file path could not be loaded...");
@@ -51,12 +53,21 @@ public class User {
 
     public boolean addUser(String username, String password, String email, String phoneNo) throws IOException {
 
+        // Get the current date and time
+        LocalDateTime now = LocalDateTime.now();
+
+        // Define the desired format without colons for the time
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH.mm.ss");
+
+        // Format the current date and time as a string
+        String formattedDateTime = now.format(formatter);
+
         System.out.println("\nSystem: Register Process Started...");
-        String Credential = username + ":" + password + ":" + email + ":" + phoneNo;
+        String Credential = username + ":" + password + ":" + email + ":" + phoneNo + ":" + formattedDateTime;
 
         try {
             System.out.println( "System: Registering User...");
-            String userDataPath = FilePathReader.getPathFromResources(1);
+            String userDataPath = FilePathReader.getPathFromResources(3);
 
             if (userDataPath != null) {
                 System.out.println("\tSystem: User data file path loaded...");
@@ -65,7 +76,7 @@ public class User {
                 if (this.isRegistered) {
 
                     System.out.println("\tSystem: User Analyze DB Finding...");
-                    String userAnalyzeDataPath = FilePathReader.getPathFromResources(7);
+                    String userAnalyzeDataPath = FilePathReader.getPathFromResources(11);
 
                     if (userAnalyzeDataPath != null) {
                         System.out.println("\tSystem: User Analyze DB data file path loaded...");
@@ -111,17 +122,17 @@ public class User {
             this.username = CaseFixer.fixCase(username);
             System.out.println("\nSystem: Start Changing Password...");
 
-            String userDataPath = FilePathReader.getPathFromResources(1);
+            String userDataPath = FilePathReader.getPathFromResources(3);
             System.out.println("System: User data file path loaded...");
 
             if (userDataPath != null) {
                 File file = new File(userDataPath);
                 System.out.println("\tSystem: User data file path loaded...");
-                this.isFind = DBSearcher.dbReadAndSearch(file ,this.username ,email ,4,0,2);
+                this.isFind = DBSearcher.dbReadAndSearch(file ,this.username ,email ,5,0,2);
                 System.out.println("\tSystem: User found...");
 
                 if (isFind) {
-                    isUpdated = DBElementUpdater.updateElement(file, this.username, newPassword, 4, 0, 1);
+                    isUpdated = DBElementUpdater.updateElement(file, this.username, newPassword, 5, 0, 1);
                     System.out.println("\tSystem: Password change Module opened successfully...");
                 }
                 else {

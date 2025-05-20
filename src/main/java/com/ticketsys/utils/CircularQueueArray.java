@@ -1,4 +1,4 @@
-package com.ticketsys.events;
+package com.ticketsys.utils;
 
 public class CircularQueueArray {
     private String[] queArray;

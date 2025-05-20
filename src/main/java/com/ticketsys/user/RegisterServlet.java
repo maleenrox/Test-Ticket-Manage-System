@@ -1,5 +1,7 @@
 package com.ticketsys.user;
 
+import com.ticketsys.utils.CaseFixer;
+import com.ticketsys.utils.DBSearcher;
 import com.ticketsys.utils.FilePathReader;
 
 import javax.servlet.ServletException;
@@ -22,10 +24,21 @@ public class RegisterServlet extends HttpServlet {
             String password = request.getParameter("password");
             String phoneNo = request.getParameter("phoneNumber");
 
+            HttpSession session = request.getSession();
+
+            String userDataPath = FilePathReader.getPathFromResources(3);
+            File file = new File(userDataPath);
+            if (DBSearcher.dbReadAndSearch(file, CaseFixer.fixCase(username),5,0)){
+                request.setAttribute("error", "Username already exists. Please try again with a different username.");
+                session.removeAttribute("success");
+                response.sendRedirect("user/userRegister.jsp");
+                System.out.println( "Username already exists. Please try again with a different username.");
+                System.out.println("Faild to register user ");
+                return;
+            }
+
             User user = new User();
             this.isRegistered = user.addUser(username, password, email, phoneNo);
-
-            HttpSession session = request.getSession();
 
             if (isRegistered) {
                 session.setAttribute("username", username);
