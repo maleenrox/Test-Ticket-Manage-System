@@ -3,7 +3,6 @@ package com.ticketsys.generalAdmin;
 import com.ticketsys.utils.CaseFixer;
 import com.ticketsys.utils.DBSearcher;
 import com.ticketsys.utils.FilePathReader;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +18,7 @@ public class RemoveEventManager extends HttpServlet {
         try {
             String eventManagerName = request.getParameter("eventManagerName");
             ManagerSettings eventManager = new ManagerSettings();
-
-            isRemoved = eventManager.removeEventManager(eventManagerName);
+            System.out.println( "UserManager Name: " + eventManagerName);
 
             HttpSession session = request.getSession();
             String eventManagerDataPath = FilePathReader.getPathFromResources(21);
@@ -33,10 +31,13 @@ public class RemoveEventManager extends HttpServlet {
                 System.out.println("Faild to register user ");
                 return;
             }
+            System.out.println("Event Manager Name: " + eventManagerName);
+
+            isRemoved = eventManager.removeEventManager(eventManagerName);
 
             if (isRemoved){
-//                session.setAttribute("eventManagerName", eventManagerName);
-//                session.setAttribute("success", "Remove Successful.");
+                session.setAttribute("eventManagerName", eventManagerName);
+                session.setAttribute("success", "Remove Successful.");
 //                session.removeAttribute("error"); // clear previous errors
                 response.sendRedirect("generalAdmin/eventManagerSettings.jsp");
             }

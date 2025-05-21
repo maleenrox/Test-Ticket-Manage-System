@@ -153,7 +153,7 @@
     <% } %>
 </div>
 <div class="form-container">
-    <h2>Add User Manager</h2>
+    <h2>Add Event Manager</h2>
     <form action="../AddEventManager" method="POST">
         <input type="text" name="eventManagerID" placeholder="Event Manager ID" required />
         <input type="text" name="eventManagerName" placeholder="Event Manager Name" required />

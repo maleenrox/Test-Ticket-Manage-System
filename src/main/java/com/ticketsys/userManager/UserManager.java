@@ -74,8 +74,21 @@ public class UserManager extends Manager {
             }
 
             if (this.isRegistered) {
+                System.out.println("\tSystem: User Analyze DB Finding...");
+                String userAnalyzeDataPath = FilePathReader.getPathFromResources(11);
+
+                if (userAnalyzeDataPath != null) {
+                    System.out.println("\tSystem: User Analyze DB data file path loaded...");
+                    File file2 = new File(userAnalyzeDataPath);
+                    Credential = userName + ":" + 00 + ":" + 00;
+                    this.isRegistered = DBElementAdder.addElementToEnd(file2, Credential);
+                }
+                else {
+                    System.out.println("\tSystem: User Analyze DB data file path could not be loaded...");
+                    this.isRegistered = false;
+                }
                 System.out.println("System: Registration Successful...");
-                return true;
+                return isRegistered;
             }
             else {
                 System.out.println("System: Registration Failed...");

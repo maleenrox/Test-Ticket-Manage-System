@@ -20,8 +20,6 @@ public class RemoveUserServlet extends HttpServlet {
             String username = request.getParameter("userName");
             UserManager userManager = new UserManager();
 
-            isRemoved = userManager.removeUser(username);
-
             HttpSession session = request.getSession();
             String userDataPath = FilePathReader.getPathFromResources(3);
             File file = new File(userDataPath);
@@ -33,6 +31,8 @@ public class RemoveUserServlet extends HttpServlet {
                 System.out.println("Faild to register user ");
                 return;
             }
+
+            isRemoved = userManager.removeUser(username);
 
             if (isRemoved){
                 session.setAttribute("username", username);

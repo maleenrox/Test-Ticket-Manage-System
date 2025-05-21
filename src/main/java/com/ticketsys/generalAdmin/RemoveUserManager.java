@@ -21,8 +21,6 @@ public class RemoveUserManager extends HttpServlet {
             ManagerSettings userManager = new ManagerSettings();
             System.out.println( "UserManager Name: " + userManagerName);
 
-            isRemoved = userManager.removeUserManager(userManagerName);
-
             HttpSession session = request.getSession();
             String userManagerDataPath = FilePathReader.getPathFromResources(8);
             File file = new File(userManagerDataPath);
@@ -34,6 +32,8 @@ public class RemoveUserManager extends HttpServlet {
                 System.out.println("Faild to register user ");
                 return;
             }
+
+            isRemoved = userManager.removeUserManager(userManagerName);
 
             if (isRemoved){
                 session.setAttribute("success", "Remove Successful.");

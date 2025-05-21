@@ -212,7 +212,7 @@
                     }
 
                 %>
-                <li><strong>User Count:</strong> <%=eventCount%></li>
+                <li><strong>Event Count:</strong> <%=eventCount%></li>
                 <br>
             </ul>
             <ul>
@@ -225,10 +225,29 @@
         <div class="box">
             <h2>Ticket</h2>
             <ul class="user-count-list">
-                <li><strong>Total Ticket Solds:</strong> 6</li>
-                <li><strong>New Ticket Solds:</strong> 5</li>
-                <li><strong>Today Income:</strong> $130</li>
-                <li><strong>Total Income:</strong> $150</li>
+                <%
+                    String ticketDBPath = FilePathReader.getPathFromResources(29);
+                    String line1;
+                    int ticketCount = 0;
+                    int totalTicketCount = 0;
+                    int totalTransactionAmount = 0;
+
+                    try (BufferedReader br = new BufferedReader(new FileReader(ticketDBPath))) {
+                        while ((line1 = br.readLine()) != null) {
+                            String[] parts1 = line1.split(":");
+                            ticketCount++;
+                            totalTicketCount += Integer.parseInt(parts1[2]);
+                            totalTransactionAmount += Integer.parseInt(parts1[3]);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                %>
+                <li><span>Total Ticket Count: </span><%=ticketCount%></li>
+                <li><span>Total Ticket Solds: </span><%=totalTicketCount%></li>
+                <li><span>Total Revenue: $</span><%=totalTransactionAmount%></li>
+                <br>
             </ul>
             <ul>
                 <li><button onclick="window.location.href='ticketAnalyze.jsp'">Ticket Analyze</button></li>
@@ -268,7 +287,7 @@
             <h2>Event Managers</h2>
             <ul class="user-count-list">
                 <%
-                    String eventManagerDBPath = FilePathReader.getPathFromResources(3);
+                    String eventManagerDBPath = FilePathReader.getPathFromResources(21);
 
                     int eventManagerCount = 0;
 

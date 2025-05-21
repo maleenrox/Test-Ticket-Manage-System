@@ -81,7 +81,7 @@ public class User {
                     if (userAnalyzeDataPath != null) {
                         System.out.println("\tSystem: User Analyze DB data file path loaded...");
                         File file2 = new File(userAnalyzeDataPath);
-                        Credential = username + ":" + 00 + ":" + 00 + ":" + 00 + ":" + 00;
+                        Credential = username + ":" + 00 + ":" + 00;
                         this.isRegistered = DBElementAdder.addElementToEnd(file2, Credential);
                     }
                     else {

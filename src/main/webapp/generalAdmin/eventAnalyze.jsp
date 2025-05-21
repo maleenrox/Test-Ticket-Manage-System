@@ -1,3 +1,8 @@
+<%@ page import="com.ticketsys.utils.FilePathReader" %>
+<%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.io.FileReader" %>
+<%@ page import="java.io.IOException" %>
+<%@ page import="java.io.File" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,14 +139,38 @@
     <div class="description">
         <p>Analyze event details in the event ticketing system. You can view the total ticket count, tickets remaining, tickets sold, and total income for each event.</p>
     </div>
+    <%
+        String eventAnalyzeDBPath = FilePathReader.getPathFromResources(24);
+        String line1;
+        int eventCount = 0;
+        int totalTickets = 0;
+        int totalActiveTickets = 0;
+        int totalSoldTickets = 0;
+        int totalTransactionAmount = 0;
 
+        try (BufferedReader br = new BufferedReader(new FileReader(eventAnalyzeDBPath))) {
+            while ((line1 = br.readLine()) != null) {
+                String[] parts1 = line1.split(":");
+                eventCount++;
+                totalTickets += Integer.parseInt(parts1[1]);
+                totalActiveTickets += Integer.parseInt(parts1[2]);
+                totalSoldTickets += Integer.parseInt((parts1[3]));
+                totalTransactionAmount += Integer.parseInt(parts1[4]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    %>
     <!-- General Event Details Section -->
     <div class="event-info">
         <h3>General Event Details</h3>
         <ul>
-            <li><span>Total Events:</span> 2</li>
-            <li><span>Total Tickets Sold:</span> 6</li>
-            <li><span>Total Revenue:</span> $150</li>
+            <li><span>Total Events: </span><%=eventCount%></li>
+            <li><span>Total Active Tickets: </span><%=totalTickets%></li>
+            <li><span>Total Tickets Remining: </span><%=totalActiveTickets%></li>
+            <li><span>Total Tickets Sold: </span><%=totalSoldTickets%></li>
+            <li><span>Total Revenue: $</span><%=totalTransactionAmount%></li>
         </ul>
     </div>
 
@@ -153,27 +182,30 @@
                 <thead>
                 <tr>
                     <th>Event Name</th>
-                    <th>Total Ticket Count</th>
+                    <th>Active Ticket Count</th>
                     <th>Tickets Remains</th>
                     <th>Tickets Sold</th>
-                    <th>Total Income</th>
+                    <th>Income</th>
                 </tr>
                 </thead>
                 <tbody>
+
+                <%
+                    BufferedReader reader = null;
+                    File file = new File(eventAnalyzeDBPath);
+                    reader = new BufferedReader(new FileReader(file));
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        String[] parts = line.split(":");%>
                 <tr>
-                    <td>Conspirito 25</td>
-                    <td>200</td>
-                    <td>199</td>
-                    <td>1</td>
-                    <td>$50</td>
+                    <td><%=parts[0]%></td>
+                    <td><%=parts[1]%></td>
+                    <td><%=parts[2]%></td>
+                    <td><%=parts[3]%></td>
+                    <td>$<%=parts[4]%></td>
                 </tr>
-                <tr>
-                    <td>CybrArt Exhibition</td>
-                    <td>200</td>
-                    <td>195</td>
-                    <td>5</td>
-                    <td>$100</td>
-                </tr>
+                <%}%>
                 </tbody>
             </table>
         </div>

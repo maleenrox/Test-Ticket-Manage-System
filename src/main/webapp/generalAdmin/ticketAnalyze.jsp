@@ -1,3 +1,8 @@
+<%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.io.IOException" %>
+<%@ page import="java.io.FileReader" %>
+<%@ page import="com.ticketsys.utils.FilePathReader" %>
+<%@ page import="java.io.File" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -124,6 +129,25 @@
   </style>
 </head>
 <body>
+<%
+  String ticketDBPath = FilePathReader.getPathFromResources(29);
+  String line1;
+  int ticketCount = 0;
+  int totalTicketCount = 0;
+  int totalTransactionAmount = 0;
+
+  try (BufferedReader br = new BufferedReader(new FileReader(ticketDBPath))) {
+    while ((line1 = br.readLine()) != null) {
+      String[] parts1 = line1.split(":");
+      ticketCount++;
+      totalTicketCount += Integer.parseInt(parts1[2]);
+      totalTransactionAmount += Integer.parseInt(parts1[3]);
+    }
+  } catch (IOException e) {
+    e.printStackTrace();
+  }
+
+%>
 
 <div class="container">
   <header>
@@ -139,15 +163,15 @@
   <div class="general-ticket-info">
     <h3>General Ticket Details</h3>
     <ul>
-      <li><span>Total Ticket Count:</span> 400</li>
-      <li><span>Total Revenue:</span> $150</li>
-      <li><span>Tickets Sold Today:</span> 5</li>
+      <li><span>Total Ticket Count: </span><%=ticketCount%></li>
+      <li><span>Total Ticket Solds: </span><%=totalTicketCount%></li>
+      <li><span>Total Revenue: $</span><%=totalTransactionAmount%></li>
     </ul>
   </div>
 
   <!-- Ticket Purchase Section -->
   <div class="ticket-info">
-    <h3>Ticket Purchases</h3>
+    <h3>Ticket Purchases (Up to the last 10 in the Queue)</h3>
     <div class="table-container">
       <table>
         <thead>
@@ -160,27 +184,22 @@
         </tr>
         </thead>
         <tbody>
+        <%
+          BufferedReader reader = null;
+          File file = new File(ticketDBPath);
+          reader = new BufferedReader(new FileReader(file));
+          String line;
+
+          while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(":");%>
         <tr>
-          <td>Ranil</td>
-          <td>Conspirito 25</td>
-          <td>1</td>
-          <td>$50</td>
-          <td>2025-05-05 19:34</td>
+          <td><%=parts[0]%></td>
+          <td><%=parts[1]%></td>
+          <td><%=parts[2]%></td>
+          <td>$<%=parts[3]%></td>
+          <td><%=parts[4]%></td>
         </tr>
-        <tr>
-          <td>user</td>
-          <td>CybrArt Exhibition</td>
-          <td>4</td>
-          <td>$80</td>
-          <td>2025-05-04 22:30</td>
-        </tr>
-        <tr>
-          <td>user</td>
-          <td>CybrArt Exhibition</td>
-          <td>1</td>
-          <td>$20</td>
-          <td>2025-05-04 22:26</td>
-        </tr>
+        <%}%>
         </tbody>
       </table>
     </div>

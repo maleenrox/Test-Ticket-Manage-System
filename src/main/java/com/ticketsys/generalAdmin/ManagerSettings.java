@@ -52,7 +52,7 @@ public class ManagerSettings extends Manager{
     public boolean addEventManager(String eventManagerID, String eventManagerName, String email, String phoneNo, String password) throws IOException {
 
         System.out.println("\nSystem: Register Process Started...");
-        String Credential = eventManagerID + ":" + eventManagerName + ":" + email + ":" + phoneNo;
+        String Credential = eventManagerID + ":" + eventManagerName + ":" + email + ":" + phoneNo+ ":" + password;
 
         try {
             System.out.println( "System: Registering Event Manager...");
@@ -118,15 +118,17 @@ public class ManagerSettings extends Manager{
         }
     }
 
-    public boolean removeEventManager(String eventmanagername) throws IOException {
+    public boolean removeEventManager(String eventmanagerID) throws IOException {
         System.out.println("\nSystem: Remove Process Started...");
 
         try {
             String eventManagerDataPath = FilePathReader.getPathFromResources(21);
             if (eventManagerDataPath != null) {
                 System.out.println("\tSystem: User data file path loaded...");
-
-                this.isRemoved = DBElementRemover.removeWholeElement(new File(eventManagerDataPath), CaseFixer.fixCase(eventmanagername), 0);
+                File file = new File(eventManagerDataPath);
+                String eventManagerID = CaseFixer.fixCase(eventmanagerID);
+                System.out.println(eventManagerID);
+                this.isRemoved = DBElementRemover.removeWholeElement(file, eventManagerID, 0);
             }
             else {
                 System.out.println("\tSystem: User data file path could not be loaded...");

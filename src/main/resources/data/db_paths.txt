@@ -26,7 +26,7 @@ C:/data/Test-Ticket-Manage-System/data/db_event_analyze.txt
 
 ***** Ticket Data Bases *****
 <userName,eventName,soldTicketCount,amount,date&time> ==== 5
-C:/data/Test-Ticket-Manage-System/data/ticket_purchase.txt
+C:/data/Test-Ticket-Manage-System/data/db_ticket_purchase.txt
 
 
 ***** General Admin Data Bases *****

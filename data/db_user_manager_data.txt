@@ -1,2 +1,2 @@
 UM0001:UM Name:email:phoneNumber:password
-UM0002:null:Appzenova9@gmail.com:0116643224:123
+UM0002:MANIYA:aappzenovadigital4@gmail.com:0112345678:123

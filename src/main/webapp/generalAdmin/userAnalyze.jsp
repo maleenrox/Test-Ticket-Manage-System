@@ -130,13 +130,18 @@
 <body>
 
 <%
-    String userDBPath = FilePathReader.getPathFromResources(3);
-
+    String userDBPath = FilePathReader.getPathFromResources(11);
+    String line1;
     int userCount = 0;
+    int totalTicketCount = 0;
+    int totalTransactionAmount = 0;
 
     try (BufferedReader br = new BufferedReader(new FileReader(userDBPath))) {
-        while (br.readLine() != null) {
+        while ((line1 = br.readLine()) != null) {
+            String[] parts1 = line1.split(":");
             userCount++;
+            totalTicketCount += Integer.parseInt(parts1[1]);
+            totalTransactionAmount += Integer.parseInt(parts1[2]);
         }
     } catch (IOException e) {
         e.printStackTrace();
@@ -158,9 +163,9 @@
     <div class="general-user-info">
         <h3>General User Details</h3>
         <ul>
-            <li><span>Total Users:</span> <%=userCount%></li>
-            <li><span>Total Ticket Count:</span> 6</li>
-            <li><span>Total Revenue:</span> $150</li>
+            <li><span>Total User Details: </span><%=userCount%></li>
+            <li><span>Total Ticket Count: </span><%=totalTicketCount%></li>
+            <li><span>Total Revenue: </span>$<%=totalTransactionAmount%></li>
         </ul>
     </div>
 
@@ -188,7 +193,7 @@
                     <tr>
                         <td><%=parts[0]%></td>
                         <td><%=parts[1]%></td>
-                        <td><%=parts[2]%></td>
+                        <td>$<%=parts[2]%></td>
                     </tr>
                 <%}%>
                 </tbody>
