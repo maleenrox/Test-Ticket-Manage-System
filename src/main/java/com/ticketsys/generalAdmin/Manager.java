@@ -19,7 +19,7 @@ public class Manager {
             if (userManagerDataPath != null) {
                 File file = new File(userManagerDataPath);
                 System.out.println("\tSystem: User Manager data file path loaded...");
-                isLogged = DBSearcher.dbReadAndSearch(file,ManagerName,password,4,0,1);
+                isLogged = DBSearcher.dbReadAndSearch(file,this.ManagerName,password,4,0,1);
             }
             else {
                 System.err.println("\tSystem: User Manager data file path could not be loaded...");

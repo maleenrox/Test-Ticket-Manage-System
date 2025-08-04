@@ -19,7 +19,7 @@ public class GeneralAdmin {
             if (eventManagerNameDataPath != null) {
                 File file = new File(eventManagerNameDataPath);
                 System.out.println("\tSystem: General Admin data file path loaded...");
-                isLogged = DBSearcher.dbReadAndSearch(file,generalAdminName,password,5,0,4);
+                isLogged = DBSearcher.dbReadAndSearch(file,this.generalAdminName,password,5,0,4);
             }
             else {
                 System.err.println("\tSystem: General Admin data file path could not be loaded...");

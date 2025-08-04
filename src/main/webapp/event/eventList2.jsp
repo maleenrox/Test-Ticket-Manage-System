@@ -166,7 +166,7 @@
 <div class="container">
   <!-- Header Section with Title and User Info -->
   <div class="header-box">
-    <h1>Event List (Sorted by Date)</h1>
+    <h1>Event List (Sorted by Popularity)</h1>
     <div class="user-header">
       <span>Welcome, <strong><%=userName%></strong></span>
       <button onclick="window.location.href='../user/userLogOut.jsp'">Logout</button>

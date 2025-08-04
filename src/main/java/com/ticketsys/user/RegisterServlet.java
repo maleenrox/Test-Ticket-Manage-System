@@ -16,6 +16,7 @@ import java.io.*;
 public class RegisterServlet extends HttpServlet {
     private boolean isRegistered = false;
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             // get username & password from request body

@@ -38,7 +38,7 @@ public class RemoveEventManager extends HttpServlet {
             if (isRemoved){
                 session.setAttribute("eventManagerName", eventManagerName);
                 session.setAttribute("success", "Remove Successful.");
-//                session.removeAttribute("error"); // clear previous errors
+                session.removeAttribute("error"); // clear previous errors
                 response.sendRedirect("generalAdmin/eventManagerSettings.jsp");
             }
             else {

@@ -16,7 +16,7 @@ public class CircularQueueArray {
     }
 
     public void insert(String item) {
-        if (nItems >= maxSize) {
+        if (isFull()) {
             System.out.println("Queue is full");
         }
         else {
@@ -29,7 +29,7 @@ public class CircularQueueArray {
     }
 
     public String remove() {
-        if (nItems == 0) {
+        if (isEmpty()) {
             System.out.println("Queue is empty");
             return "false";
         }
@@ -43,7 +43,7 @@ public class CircularQueueArray {
     }
 
     public String peekFront() {
-        if (nItems == 0) {
+        if (isEmpty()) {
             System.out.println("Queue is empty");
             return "false";
         } else {
@@ -56,7 +56,7 @@ public class CircularQueueArray {
     }
 
     public boolean isFull() {
-        return nItems == maxSize;
+        return nItems >= maxSize;
     }
 
     public int getCount(){
