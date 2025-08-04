@@ -1,4 +1,4 @@
-package com.ticketsys.user;
+package com.ticketsys.userManager;
 
 import com.ticketsys.utils.CaseFixer;
 import com.ticketsys.utils.DBSearcher;
@@ -12,48 +12,41 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 
-@WebServlet("/RegisterServlet")
-public class RegisterServlet extends HttpServlet {
-    private boolean isRegistered = false;
-
-    @Override
+@WebServlet("/RemoveUser")
+public class RemoveUserServlet extends HttpServlet {
+    boolean isRemoved = false;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            // get username & password from request body
-            String username = request.getParameter("username");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String phoneNo = request.getParameter("phoneNumber");
+            String username = request.getParameter("userName");
+            UserManager userManager = new UserManager();
 
             HttpSession session = request.getSession();
-
             String userDataPath = FilePathReader.getPathFromResources(3);
             File file = new File(userDataPath);
-            if (DBSearcher.dbReadAndSearch(file, CaseFixer.fixCase(username),5,0)){
-                request.setAttribute("error", "Username already exists. Please try again with a different username.");
+            if (!(DBSearcher.dbReadAndSearch(file, CaseFixer.fixCase(username),5,0))){
+                request.setAttribute("error", "Username Not Found. Please try again with a different username.");
                 session.removeAttribute("success");
-                response.sendRedirect("user/userRegister.jsp");
+                response.sendRedirect("userManager/removeUser.jsp");
                 System.out.println( "Username already exists. Please try again with a different username.");
                 System.out.println("Faild to register user ");
                 return;
             }
 
-            User user = new User();
-            this.isRegistered = user.addUser(username, password, email, phoneNo);
+            isRemoved = userManager.removeUser(username);
 
-            if (isRegistered) {
+            if (isRemoved){
                 session.setAttribute("username", username);
-                session.setAttribute("success", "Registration Successful.");
+                session.setAttribute("success", "Remove Successful.");
                 session.removeAttribute("error"); // clear previous errors
-                response.sendRedirect("user/userLogin.jsp");
+                response.sendRedirect("userManager/userManagerDashboard.jsp");
             }
             else {
-                session.setAttribute("error", "Register Failed");
+                session.setAttribute("error", "Remove Failed");
                 session.removeAttribute("success");
-                response.sendRedirect("user/userRegister.jsp");
+                response.sendRedirect("userManager/removeUser.jsp");
             }
-
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

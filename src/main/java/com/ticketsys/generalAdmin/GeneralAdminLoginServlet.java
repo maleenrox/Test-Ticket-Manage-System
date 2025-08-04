@@ -1,13 +1,12 @@
-package com.ticketsys.user;
+package com.ticketsys.generalAdmin;
 
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
-
+@WebServlet("/GeneralAdminLoginServlet")
+public class GeneralAdminLoginServlet extends HttpServlet {
     private String username = null;
     private String password = null;
     private boolean isLogged = false;
@@ -19,22 +18,22 @@ public class LoginServlet extends HttpServlet {
             this.password = request.getParameter("password");
 
             // access User-data resource file
-            User user = new User();
+            GeneralAdmin generalAdmin = new GeneralAdmin();
 
-            isLogged = user.login(username, password);
+            isLogged = generalAdmin.login(username, password);
 
             HttpSession session = request.getSession();
             if (isLogged) {
                 System.out.println("* Import System: Loggin successfull...");
-                session.setAttribute("username", username);
+                session.setAttribute("generalAdminName", username);
                 session.setAttribute("success", "Login Successful...");
                 session.removeAttribute("error"); // Clear previous errors
-                response.sendRedirect("event/eventList1.jsp");
+                response.sendRedirect("generalAdmin/generalAdminDashboard.jsp");
             }
             else {
                 System.out.println("* Import System: Loggin failed...");
                 session.setAttribute("error", "Invalid credentials. Please try again.");
-                response.sendRedirect("user/userLogin.jsp");
+                response.sendRedirect("generalAdmin/generalAdminLogin.jsp");
             }
         } catch (Exception e) {
             e.printStackTrace();

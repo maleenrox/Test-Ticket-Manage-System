@@ -1,4 +1,42 @@
-C:/data/project/ticket-system/data/db_user_data.txt
-C:/data/project/ticket-system/data/db_admin_data.txt
-C:/data/project/ticket-system/data/ticket_count.txt
-C:/data/project/ticket-system/data/ticket_purchase.txt
+***** User Data Bases *****
+<userName,userPassword,email,phoneNumber,date> ==== 5
+C:/data/Test-Ticket-Manage-System/data/db_user_data.txt
+
+
+***** User Manager Data Bases *****
+<userManagerNumber,userManagerName,email,phoneNumber,passWord> ==== 5
+C:/data/Test-Ticket-Manage-System/data/db_user_manager_data.txt
+
+<userName,ticketCount,totalTransactions> ==== 3
+C:/data/Test-Ticket-Manage-System/data/db_user_analyze.txt
+
+
+***** Event Data Bases *****
+<eventName,eventDescription,eventTicketCount,eventTicketValue,Date&Time> ==== 5
+C:/data/Test-Ticket-Manage-System/data/db_events.txt
+
+
+***** Event Manager Data Bases *****
+<eventManagerNumber,eventManagerName,email,phoneNumber,passWord> ==== 5
+C:/data/Test-Ticket-Manage-System/data/db_event_manager_data.txt
+
+<eventName,totalTicketCount,TicketRemains,ticketSold,Income> ==== 5
+C:/data/Test-Ticket-Manage-System/data/db_event_analyze.txt
+
+
+***** Ticket Data Bases *****
+<userName,eventName,soldTicketCount,amount,date&time> ==== 5
+C:/data/Test-Ticket-Manage-System/data/db_ticket_purchase.txt
+
+
+***** General Admin Data Bases *****
+<generalAdminID,generalAdminName,email,phoneNumber,passWord> ==== 5
+C:/data/Test-Ticket-Manage-System/data/db_general_admin_data.txt
+
+***** Sorting Data Base - Date and Time *****
+<eventName,DateAndTime> ==== 2
+C:/data/Test-Ticket-Manage-System/data/db_event_sort_list_dateandtime.txt
+
+***** Sorting Data Base - Popularity *****
+<eventName,ticketSoldCount> ==== 2
+C:/data/Test-Ticket-Manage-System/data/db_event_sort_list_popularity.txt

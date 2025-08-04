@@ -1,13 +1,12 @@
-package com.ticketsys.user;
+package com.ticketsys.userManager;
 
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
-
+@WebServlet("/UserManagerLoginServlet")
+public class UserManagerLoginServlet extends HttpServlet{
     private String username = null;
     private String password = null;
     private boolean isLogged = false;
@@ -19,23 +18,24 @@ public class LoginServlet extends HttpServlet {
             this.password = request.getParameter("password");
 
             // access User-data resource file
-            User user = new User();
+            UserManager userManager = new UserManager();
 
-            isLogged = user.login(username, password);
+            isLogged = userManager.login(username, password);
 
             HttpSession session = request.getSession();
             if (isLogged) {
-                System.out.println("* Import System: Loggin successfull...");
-                session.setAttribute("username", username);
+                System.out.println("* Import System: Loggin Successfull...");
+                session.setAttribute("userManagerName", username);
                 session.setAttribute("success", "Login Successful...");
                 session.removeAttribute("error"); // Clear previous errors
-                response.sendRedirect("event/eventList1.jsp");
+                response.sendRedirect("userManager/userManagerDashboard.jsp");
             }
             else {
                 System.out.println("* Import System: Loggin failed...");
                 session.setAttribute("error", "Invalid credentials. Please try again.");
-                response.sendRedirect("user/userLogin.jsp");
+                response.sendRedirect("userManager/userManagerLogin.jsp");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

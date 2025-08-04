@@ -1,0 +1,7 @@
+CyberArts 25:1000:766:234:35100
+Conspirito25:700:619:81:4050
+Hacker Expo:500:315:185:37000
+Frenchio:50:26:24:48000
+Mellow Night:5000:4523:477:166950
+Test Event:100:100:0:0
+Nvins onert:10000:10000:0:0
